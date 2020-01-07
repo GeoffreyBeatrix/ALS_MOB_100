@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ALS_MOB_100;assembly=ALS_MOB_100"
+             x:Class="ALS_MOB_100.ControlBLEV"
+             Title="Tester">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Order="Primary"
+                     Priority="1"
+                     Clicked="strt_Clicked"
+                     Text="+"
+                     IconImageSource="ALS_MOB_100.Start.png"
+                     x:Name="Add_logo"
+                     />
+        <ToolbarItem Order="Secondary"
+                     Text="Load log file"
+                     Priority="1"
+                     Clicked="ToolbarItem_Clicked"
+                     x:Name="Load_file"
+                      />
+        <ToolbarItem Order="Secondary"
+                     Text="Save in log file"
+                     Priority="1"
+                     Clicked="SaveLog_Clicked"
+                     x:Name="Save_2_file"
+                      />
+        <ToolbarItem Order="Secondary"
+                     Text="Clear table"
+                     Priority="1"
+                     Clicked="Clear_Clicked"
+                     x:Name="Clear_tb"
+                      />
+        <ToolbarItem Order="Secondary"
+                     Text="Delete Log file"
+                     Priority="1"
+                     Clicked="Delete_Clicked"
+                     x:Name="Delete_tb"
+                      />
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+
+        <StackLayout x:Name="Status_layout" IsVisible="True" BackgroundColor="#fff">
+            <Label  Text=""  HorizontalOptions="FillAndExpand" FontSize="20" HorizontalTextAlignment="Center" BackgroundColor="#fff" TextColor="#fff" IsVisible="False"/>
+            <StackLayout x:Name="test_layout" Orientation="Horizontal"  HorizontalOptions="CenterAndExpand" BackgroundColor="#fff" IsVisible="false" >
+                <Button x:Name="Strt_btn" ImageSource="Image/PlayN40.png" Text=""  FontSize="20" WidthRequest="50" HeightRequest="50" BorderRadius="25" Clicked="strt_Clicked"  BorderWidth="2" HorizontalOptions="Center" VerticalOptions="Center" TextColor="#ffffff" BackgroundColor="#418f32"></Button>
+                <Button  x:Name="GetVal_btn" Text="G" FontSize="20" WidthRequest="50" HeightRequest="50" BorderRadius="25" Clicked="getlast_Clicked" BorderWidth="2" HorizontalOptions="Center" VerticalOptions="Center" TextColor="#ffffff" BackgroundColor="#ab3232"></Button>
+                <Label x:Name="info_Val1" Text="Result: " FontSize="14"  TextColor="#243A99" VerticalOptions="Center"  />
+                <Label x:Name="info_Val2" Text="------"  HorizontalTextAlignment="Center"  FontSize="14"  TextColor="#243A99" VerticalOptions="Center" />
+                <Label x:Name="info_Verd1"   Text="Verdict: "   TextColor="#243A99" FontSize="14" VerticalOptions="Center"  />
+                <Label x:Name="info_Verd2"   Text="------" HorizontalTextAlignment="Center"  TextColor="#fff" FontSize="14"  VerticalOptions="Center"  />
+            </StackLayout>
+            <Label x:Name="Hist_Res_Lab" Text="List of previous tests" HorizontalOptions="FillAndExpand" FontSize="20" HorizontalTextAlignment="Center" BackgroundColor="#273392" TextColor="#fff" />
+            <ListView x:Name="Hist_Res"  IsVisible="false" HasUnevenRows="True" SelectionMode="None" ItemTapped="ListView_ItemTapped"  >
+                <ListView.Header>
+                    <Grid BackgroundColor="#273392">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30" />
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Text="Date" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" FontSize="14" TextColor="#fff" BackgroundColor="#273392"/>
+                        <Label Grid.Row="0" Grid.Column="1" Text="S/N" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" FontSize="14" TextColor="#fff" BackgroundColor="#273392"/>
+                        <Label Grid.Row="0" Grid.Column="2" Text="Verdict" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" TextColor="#fff" BackgroundColor="#273392" />
+                    </Grid>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30" />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding Date}" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" FontSize="14" TextColor="#aaa"/>
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding SerialNumber}" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" FontSize="14" TextColor="#aaa"/>
+                                <Label Grid.Row="0" Grid.Column="2" Text="{Binding Verdict}" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" BackgroundColor="{Binding BgColor}" TextColor="#ffffff" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+        
+        <StackLayout x:Name="msg_layout_bg" IsVisible="True" BackgroundColor="#000000" Opacity=".4" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        </StackLayout>
+        <StackLayout x:Name="msg_layout" IsVisible="True" BackgroundColor="#ffffff" Padding="10,10,10,10" Margin="50,300,50,300" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Orientation="Vertical"  Spacing="5">
+            <Label x:Name="msg_txt" Text="Connecting..." TextColor="#243A99"  VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"  FontSize="18"/>
+            <ActivityIndicator x:Name="indic" WidthRequest="20" Color="#243A99" HeightRequest="20" IsRunning="True" ></ActivityIndicator>
+        </StackLayout>
+
+        <StackLayout x:Name="background" IsVisible="False" BackgroundColor="#000" Opacity=".7" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Tapped="background_click"/>
+            </StackLayout.GestureRecognizers>
+        </StackLayout>
+        <StackLayout x:Name="info"   IsVisible="False" Padding="10,10,10,10" Margin="50,80,50,80" BackgroundColor="#fff"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Tapped="background_click"/>
+            </StackLayout.GestureRecognizers>
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25" />
+                </Grid.RowDefinitions>
+
+                <Label Text="Date:" Grid.Column="0" Grid.Row="0" FontSize="14" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" />
+                <Label x:Name="info_date"  Grid.Column="1" Grid.Row="0" FontSize="14" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+
+                <Label Text="Time:" Grid.Column="0" Grid.Row="1" FontSize="14" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" />
+                <Label x:Name="info_time"  Grid.Column="1" Grid.Row="1" FontSize="14" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+
+                <Label Text="Acquisition #:" Grid.Column="0" Grid.Row="2" FontSize="14" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" />
+                <Label x:Name="info_acq"  Grid.Column="1" Grid.Row="2" FontSize="14" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+
+                <Label Text="Serial Number:" Grid.Column="0" Grid.Row="3" FontSize="14" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+                <Button  x:Name="info_sn" Grid.Column="1" Grid.Row="3" FontSize="14" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Clicked="OpenScanner" BorderColor="#ffffff" BackgroundColor="#ffffff"/>
+               
+
+                <Label Text="Value:" Grid.Column="0" Grid.Row="4" FontSize="14" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+                <Label x:Name="info_val" Grid.Column="1" Grid.Row="4" FontSize="14" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+
+                <Label Text="Verdict:" Grid.Column="0" Grid.Row="5" FontSize="14" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+                <Label x:Name="info_verd" Grid.Column="1" Grid.Row="5" TextColor="#ffffff" FontSize="14" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+
+                <Label x:Name="info_verd_NC" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" Text="Please perform a new test because the verdict is uncertain" TextColor="Red" FontSize="14" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+
+                <Label  x:Name="info_temp_lab" Text="Temperature:" Grid.Column="0" Grid.Row="7" FontSize="14" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+                <Label x:Name="info_temp"  Grid.Column="1" Grid.Row="7" FontSize="14" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+
+            </Grid>          
+        </StackLayout>        
+    </Grid>
+    
+</ContentPage>

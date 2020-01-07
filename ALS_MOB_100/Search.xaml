@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ALS_MOB_100"
+             x:Class="ALS_MOB_100.Search"
+             Title="AMLOS BLE Devices searching">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Order="Secondary"
+                     Text="Read logs files"
+                     Priority="1"
+                     Clicked="LogFileViewer_Clicked"
+                     x:Name="Load_file"/>
+
+    </ContentPage.ToolbarItems>
+    
+    <Grid>
+       
+        <StackLayout x:Name="list_layout" IsVisible="True">
+            
+            <StackLayout   HorizontalOptions="FillAndExpand">
+                <ActivityIndicator HorizontalOptions="CenterAndExpand" Margin="0,10,0,0" IsRunning="True" Color="#aaa" WidthRequest="15" HeightRequest="50"/>
+            </StackLayout>
+            
+            <ListView x:Name="listView"   IsPullToRefreshEnabled="True" Refreshing="ListView_Refreshing" HasUnevenRows="True" SelectionMode="None"   ItemTapped="ListView_ItemTapped">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell IsEnabled="{Binding Status}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="50" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="25" />
+                                    <RowDefinition Height="25" />
+                                </Grid.RowDefinitions>
+                                <StackLayout Orientation="Vertical" VerticalOptions="Center" Grid.RowSpan="2" Grid.Column="0">
+                                    <StackLayout Orientation="Horizontal" VerticalOptions="Center" Spacing="2" >
+                                        <Label Text=""  WidthRequest="5" VerticalOptions="Center" HorizontalOptions="Center" FontSize="14" TextColor="#aaa"/>
+                                        <Button  BackgroundColor="{Binding Bar1}" WidthRequest="5" HeightRequest="15" />
+                                        <Button  BackgroundColor="{Binding Bar2}" WidthRequest="5" HeightRequest="15" />
+                                        <Button  BackgroundColor="{Binding Bar3}" WidthRequest="5" HeightRequest="15" />
+                                        <Button  BackgroundColor="{Binding Bar4}" WidthRequest="5" HeightRequest="15" />
+                                    </StackLayout>
+                                    <Label Text="{Binding Rssi}"  VerticalOptions="Center" HorizontalOptions="Center" FontSize="14" TextColor="#aaa"/>
+                                </StackLayout> 
+                                <Label Text="{Binding Name}" Grid.Row="0" Grid.Column="1" HorizontalOptions="Start" FontSize="18" TextColor="{Binding Name_col}"/>
+                                <Label Text="{Binding Uuid}" Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" FontSize="14" TextColor="{Binding Uuid_col}"/>
+                                <Label Text=">" Grid.RowSpan="2" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center"  FontSize="20" TextColor="#273389" />
+                                
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </StackLayout>
+    </Grid>
+
+</ContentPage>

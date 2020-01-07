@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="ALS_MOB_100.Logviewer"
+             Title="Log Viewer">
+  <ContentPage.Content>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackLayout>
+                <ListView x:Name="LogList" HasUnevenRows="True" SelectionMode="None" ItemTapped="ListView_ItemTapped" >
+                    <ListView.Header>
+                        <Grid BackgroundColor="#273392">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0" Text="Date" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" FontSize="14" TextColor="#fff" BackgroundColor="#273392"/>
+                            <Label Grid.Row="0" Grid.Column="1" Text="S/N" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" FontSize="14" TextColor="#fff" BackgroundColor="#273392"/>
+                            <Label Grid.Row="0" Grid.Column="2" Text="Verdict" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" TextColor="#fff" BackgroundColor="#273392" />
+                        </Grid>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30" />
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding Date}" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" FontSize="14" TextColor="#aaa"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding SerialNumber}" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" FontSize="14" TextColor="#aaa"/>
+                                    <Label Grid.Row="0" Grid.Column="2" Text="{Binding Verdict}" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" BackgroundColor="{Binding BgColor}" TextColor="#ffffff" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+
+            <StackLayout x:Name="background" IsVisible="False" BackgroundColor="#000000" Opacity=".7" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="background_click"/>
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
+            <StackLayout x:Name="info"   IsVisible="False" Padding="10,10,10,10" Margin="50,80,50,80" BackgroundColor="#ffffff"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="background_click"/>
+                </StackLayout.GestureRecognizers>
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25" />
+                    </Grid.RowDefinitions>
+
+                    <Label Text="Date:" Grid.Column="0" Grid.Row="0" FontSize="14" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" />
+                    <Label x:Name="info_date"  Grid.Column="1" Grid.Row="0" FontSize="14" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+
+                    <Label Text="Time:" Grid.Column="0" Grid.Row="1" FontSize="14" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" />
+                    <Label x:Name="info_time"  Grid.Column="1" Grid.Row="1" FontSize="14" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+
+                    <Label Text="Acquisition #:" Grid.Column="0" Grid.Row="2" FontSize="14" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" />
+                    <Label x:Name="info_acq"  Grid.Column="1" Grid.Row="2" FontSize="14" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+
+                    <Label Text="Serial Number:" Grid.Column="0" Grid.Row="3" FontSize="14" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+                    <Label  x:Name="info_sn" Grid.Column="1" Grid.Row="3" FontSize="14" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+
+                    <Label Text="Value:" Grid.Column="0" Grid.Row="4" FontSize="14" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+                    <Label x:Name="info_val" Grid.Column="1" Grid.Row="4" FontSize="14" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+
+                    <Label Text="Verdict:" Grid.Column="0" Grid.Row="5" FontSize="14" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+                    <Label x:Name="info_verd" Grid.Column="1" Grid.Row="5" TextColor="#ffffff" FontSize="14" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+
+                    <Label x:Name="info_verd_NC" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" Text="Please perform a new test because the verdict is uncertain" TextColor="Red" FontSize="14" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+
+                    <Label  x:Name="info_temp_lab" Text="Temperature:" Grid.Column="0" Grid.Row="7" FontSize="14" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+                    <Label x:Name="info_temp"  Grid.Column="1" Grid.Row="7" FontSize="14" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+
+                </Grid>
+            </StackLayout>
+
+
+        </Grid>
+
+
+    </ContentPage.Content>
+</ContentPage>
